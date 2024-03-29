@@ -64,11 +64,17 @@ function fetchCartItems() {
     fetch('/get_cart_items')
     .then(response => response.json())
     .then(data => {
-        populateCartItems(data.cart);
-        document.getElementById('total-cost').textContent = data.total_cost.toFixed(2);
+        updateMenuLink(data.cart);
     })
     .catch(error => console.error('Error:', error));
 }
+
+function updateMenuLink(cartItems) {
+    const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const menuLink = document.getElementById('menu-link');
+    menuLink.textContent = `MENU(${totalItems})`;
+}
+
 
 function populateCartItems(cartItems) {
     const tbody = document.querySelector('.cart-table tbody');
