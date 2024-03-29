@@ -25,19 +25,11 @@ function initializeAddToCartForms() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                alert(data.message);
                 fetchCartItems();
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error:', error));
         });
     });
 }
@@ -64,17 +56,16 @@ function fetchCartItems() {
     fetch('/get_cart_items')
     .then(response => response.json())
     .then(data => {
-        updateMenuLink(data.cart);
+        updateCartLink(data.cart);
     })
     .catch(error => console.error('Error:', error));
 }
 
-function updateMenuLink(cartItems) {
+function updateCartLink(cartItems) {
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
-    const menuLink = document.getElementById('menu-link');
-    menuLink.textContent = `MENU(${totalItems})`;
+    const cartLink = document.getElementById('cart-link');
+    cartLink.textContent = `CART(${totalItems})`;
 }
-
 
 function populateCartItems(cartItems) {
     const tbody = document.querySelector('.cart-table tbody');
