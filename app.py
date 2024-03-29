@@ -64,14 +64,10 @@ def add_to_cart():
         item_in_cart = next((item for item in session['cart'] if item['id'] == pizza_id), None)
         if item_in_cart:
             item_in_cart['quantity'] += quantity
-            message = "Quantity updated in cart."
         else:
             session['cart'].append({'id': pizza_id, 'name': pizza['name'], 'price': pizza['price'], 'quantity': quantity})
-            message = "Item added to cart."
         session.modified = True
-        return jsonify({'success': True, 'message': message})
-    else:
-        return jsonify({'success': False, 'message': 'Pizza not found'}), 404
+    return '', 204
 
 
 @app.route('/cart')
