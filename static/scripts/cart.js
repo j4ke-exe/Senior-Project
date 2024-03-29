@@ -19,7 +19,7 @@ function initializeQuantityChangeListeners() {
 function initializeAddToCartForms() {
     document.querySelectorAll('.menu-form').forEach(form => {
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); 
+            event.preventDefault();
             const formData = new FormData(this);
             fetch('/add_to_cart', {
                 method: 'POST',
@@ -38,8 +38,8 @@ function initializeAddToCartForms() {
 function updateCartItem(itemId, quantity) {
     fetch('/update_item', {
         method: 'POST',
-        body: JSON.stringify({ item_id: itemId, quantity: quantity }),
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item_id: itemId, quantity: quantity })
     })
     .then(response => response.json())
     .then(data => {
