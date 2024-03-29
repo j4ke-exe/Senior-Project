@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order | Pizzazz Pizza</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="logo">
+    <img src="/static/images/logo.svg" class="logo logo-mobile">
+  </div>
+  <div class="video-background">
+    <video loop muted autoplay playsinline>
+      <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/">HOME</a></li>
+      <li><a href="/menu">MENU</a></li>
+      <li><a href="/cart">CART</a></li>
+    </ul>
+  </nav>
+  {% if order %}
+    <div class="content">
+      <div class="order-details">
+        <h2>Order ID: {{ order_id }}</h2>
+        <p><strong>Name:</strong> {{ order['customer_info']['name'] }}</p>
+        <p><strong>Address:</strong> {{ order['customer_info']['address'] }}</p>
+        <p><strong>Email:</strong> {{ order['customer_info']['email'] }}</p>
+        <p><strong>Phone:</strong> {{ order['customer_info']['phone'] }}</p>
+        <p><strong>Order Time:</strong> {{ order.formatted_timestamp }}</p>
+        <p><strong>Order Status:</strong> {{ order['status'] }}</p>
+        <h3>Items Ordered:</h3>
+        <ul>
+          {% for item in order['order_details'] %}
+            <li>{{ item['name'] }} - Quantity: {{ item['quantity'] }}</li>
+          {% endfor %}
+        </ul>
+        <p><strong>Total Cost:</strong> ${{ '%.2f'|format(order['total_cost']) }}</p>
+      </div>
+    </div>
+  {% else %}
+    <p>Order not found. Please check the Order ID and try again.</p>
+  {% endif %}
+  {% if is_mobile %}
+    <footer class="footer-mobile">&copy; 2024 Pizzazz &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% else %}
+    <footer class="footer-desktop">&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% endif %}
+</body>
+</html>

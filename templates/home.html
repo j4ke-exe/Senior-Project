@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzazz Pizza</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="logo">
+        <img src="/static/images/logo.svg" class="logo">
+    </div>
+    <div class="video-background">
+        <video loop muted autoplay playsinline>
+            <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/menu">MENU</a></li>
+            <li><a href="/cart">CART</a></li>
+        </ul>
+    </nav>
+    <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+</body>
+</html>

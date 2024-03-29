@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Pizzazz Pizza</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='scripts/paymentForm.js') }}" defer></script>
+</head>
+<body>
+  <div class="logo">
+    <img src="/static/images/logo.svg" class="logo logo-mobile">
+  </div>
+  <div class="video-background">
+    <video loop muted autoplay playsinline>
+      <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/">HOME</a></li>
+      <li><a href="/menu">MENU</a></li>
+      <li><a href="/cart">CART</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <form action="{{ url_for('checkout') }}" method="POST" class="checkout-table">
+      {{ form.hidden_tag() }}
+      <div class="form-row">
+        <label for="name">Name</label>
+        {{ form.name(class_='form-control', id='name') }}
+      </div>
+      <div class="form-row">
+        <label for="address">Address</label>
+        {{ form.address(class_='form-control', id='address') }}
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        {{ form.email(class_='form-control', id='email') }}
+      </div>
+      <div class="form-row">
+        <label for="phone">Phone</label>
+        {{ form.phone(class_='form-control', id='phone') }}
+      </div>
+
+      <div class="form-row">
+        <label>Total Cost:</label>
+        <span>${{ '%.2f'|format(total_cost) }}</span>
+      </div>
+
+      <div class="form-row">
+        <button type="submit" class="btn">Place Order</button>
+      </div>
+    </form>
+  </div>
+  {% if is_mobile %}
+  <footer class="footer-mobile">&copy; 2024 Pizzazz &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% else %}
+  <footer class="footer-desktop">&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% endif %}
+</body>
+</html>

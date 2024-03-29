@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Pizzazz Pizza</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='scripts/cart.js') }}" defer></script>
+</head>
+<body>
+  <div class="logo">
+    <img src="/static/images/logo.svg" class="logo logo-mobile">
+  </div>
+  <div class="video-background">
+    <video loop muted autoplay playsinline>
+      <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="/">HOME</a></li>
+      <li><a href="/menu">MENU</a></li>
+      <li><a href="/cart">CART</a></li>
+    </ul>
+  </nav>
+  <div class="content">
+    <div class="cart-items">
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+          <tr class="total-cost">
+            <td colspan="3" style="text-align: right;">Grand Total:</td>
+            <td>$<span id="total-cost">0.00</span></td>
+          </tr>
+          <tr class="checkout-row">
+            <td colspan="4" style="text-align: right;">
+              <button type="button" id="clear-cart-btn" class="btn">Clear</button>
+              <button type="submit" name="action" value="update" data-action="update" class="btn-update-cart">Update</button>
+              <a href="/checkout"><button type="button" class="btn">Checkout</button></a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  {% if is_mobile %}
+  <footer class="footer-mobile">&copy; 2024 Pizzazz &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% else %}
+  <footer class="footer-desktop">&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+  {% endif %}
+</body>
+</html>
