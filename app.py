@@ -80,10 +80,10 @@ def cart():
 
 @app.route('/get_cart_items')
 def get_cart_items():
-    if 'cart' not in session:
+    if 'cart' not in session or not session['cart']:
         return jsonify({'cart': [], 'total_cost': 0})
-    total_cost = calculate_order_total(session['cart'])
-    return jsonify({'cart': session['cart'], 'total_cost': total_cost})
+    else:
+        return jsonify({'cart': session['cart'], 'total_cost': calculate_total_cost()})
 
 
 @app.route('/clear_cart', methods=['POST'])
