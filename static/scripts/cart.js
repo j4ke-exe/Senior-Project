@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeQuantityChangeListeners();
+    initializeAddToCartForms();
     initializeClearCartButton();
     fetchCartItems();
     initializeUpdateButton();
@@ -15,6 +16,24 @@ function initializeQuantityChangeListeners() {
     });
 }
 
+function initializeAddToCartForms() {
+    document.querySelectorAll('.menu-form').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            fetch('/add_to_cart', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                fetchCartItems();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+}
+
 function updateCartItem(itemId, quantity) {
     fetch('/update_item', {
         method: 'POST',
@@ -25,8 +44,9 @@ function updateCartItem(itemId, quantity) {
     .then(data => {
         if (data.success) {
             console.log('Cart updated');
+            fetchCartItems();
         } else {
-            alert(data.message);
+            console.error('Failed to update item:', data.message);
         }
     })
     .catch(error => console.error('Error:', error));
@@ -45,16 +65,13 @@ function fetchCartItems() {
 function populateCartItems(cartItems) {
     const tbody = document.querySelector('.cart-table tbody');
     tbody.innerHTML = '';
-
     cartItems.forEach(item => {
         if (parseInt(item.quantity) === 0) {
             return;
         }
-
         const row = document.createElement('tr');
         row.className = 'cart-item';
         row.setAttribute('data-item-id', item.id);
-        
         row.innerHTML = `
             <td>${item.name}</td>
             <td>
@@ -81,8 +98,9 @@ function clearCart() {
             console.log('Cart cleared');
             document.querySelector('.cart-table tbody').innerHTML = '';
             document.getElementById('total-cost').textContent = '0.00';
+            fetchCartItems();
         } else {
-            alert('Error clearing cart.');
+            console.error('Error clearing cart:', data.message);
         }
     })
     .catch(error => console.error('Error:', error));
@@ -112,7 +130,6 @@ function initializeQuantityChangeListeners() {
 
 function updateCartItem(itemId, quantity) {
     const action = quantity === "0" ? "remove" : "update";
-
     fetch('/update_item', {
         method: 'POST',
         body: JSON.stringify({ item_id: itemId, quantity: action === "remove" ? 1 : quantity, action }),
@@ -125,7 +142,7 @@ function updateCartItem(itemId, quantity) {
             if (action === "remove") {
                 document.querySelector(`[data-item-id="${itemId}"]`).remove();
             }
-            fetchCartItems(); 
+            fetchCartItems();
         } else {
             console.error('Failed to update or remove item:', data.message);
         }
@@ -141,7 +158,6 @@ function initializeUpdateButton() {
                 item_id: input.closest('form.quantity-form').querySelector('input[name="item_id"]').value,
                 quantity: input.value,
             }));
-
             fetch('/update_items_batch', {
                 method: 'POST',
                 body: JSON.stringify({ items }),
