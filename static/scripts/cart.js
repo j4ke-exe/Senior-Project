@@ -30,11 +30,8 @@ function initializeAddToCartForms() {
                 return response.json();
             })
             .then(data => {
-                if(data.success) {
-                    console.log(data.message);
-                    fetchCartItems();
-                    updateCartCount();
-                }
+                console.log(data.message);
+                window.location.href = '/menu';
             })
             .catch(error => console.error('Error:', error));
         });
@@ -65,16 +62,6 @@ function fetchCartItems() {
     .then(data => {
         populateCartItems(data.cart);
         document.getElementById('total-cost').textContent = data.total_cost.toFixed(2);
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function updateCartCount() {
-    fetch('/get_cart_items')
-    .then(response => response.json())
-    .then(data => {
-        const cartCount = data.cart.reduce((total, item) => total + item.quantity, 0);
-        document.getElementById('cart-link').textContent = `CART(${cartCount})`;
     })
     .catch(error => console.error('Error:', error));
 }
