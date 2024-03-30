@@ -31,7 +31,7 @@ function initializeAddToCartForms() {
             })
             .then(data => {
                 console.log(data.message);
-                fetchCartItems();
+                window.location.href = '/menu';
             })
             .catch(error => console.error('Error:', error));
         });
