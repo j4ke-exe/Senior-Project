@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeUpdateButton();
 });
 
+
 function initializeQuantityChangeListeners() {
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('change', event => {
@@ -15,6 +16,7 @@ function initializeQuantityChangeListeners() {
         });
     });
 }
+
 
 function initializeAddToCartForms() {
     document.querySelectorAll('.menu-form').forEach(form => {
@@ -41,6 +43,7 @@ function initializeAddToCartForms() {
     });
 }
 
+
 function updateCartItem(itemId, quantity) {
     fetch('/update_item', {
         method: 'POST',
@@ -59,6 +62,7 @@ function updateCartItem(itemId, quantity) {
     .catch(error => console.error('Error:', error));
 }
 
+
 function fetchCartItems() {
     fetch('/get_cart_items')
     .then(response => response.json())
@@ -68,6 +72,7 @@ function fetchCartItems() {
     })
     .catch(error => console.error('Error:', error));
 }
+
 
 function populateCartItems(cartItems) {
     const tbody = document.querySelector('.cart-table tbody');
@@ -94,6 +99,7 @@ function populateCartItems(cartItems) {
     });
 }
 
+
 function clearCart() {
     fetch('/clear_cart', {
         method: 'POST',
@@ -113,6 +119,7 @@ function clearCart() {
     .catch(error => console.error('Error:', error));
 }
 
+
 function initializeClearCartButton() {
     const clearCartBtn = document.getElementById('clear-cart-btn');
     if (clearCartBtn) {
@@ -120,8 +127,8 @@ function initializeClearCartButton() {
     }
 }
 
-let debounceTimeout;
 
+let debounceTimeout;
 function initializeQuantityChangeListeners() {
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('input', event => {
@@ -134,6 +141,7 @@ function initializeQuantityChangeListeners() {
         });
     });
 }
+
 
 function updateCartItem(itemId, quantity) {
     const action = quantity === "0" ? "remove" : "update";
@@ -156,6 +164,7 @@ function updateCartItem(itemId, quantity) {
     })
     .catch(error => console.error('Error:', error));
 }
+
 
 function initializeUpdateButton() {
     const updateCartBtn = document.querySelector('.btn-update-cart');
