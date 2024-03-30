@@ -1,13 +1,16 @@
-import os, uuid, time, datetime
+import os, uuid, time, datetime 
 from flask_wtf import FlaskForm
-from wtforms import EmailField, StringField, SubmitField, TelField
 from wtforms.validators import DataRequired, Email, Length, Regexp
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from wtforms import StringField, SubmitField, EmailField, FormField, Form
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for, flash
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'pizzazz_pizza' + str(uuid.uuid4()))
 
+
 orders_db = {}
+
 
 pizza_menu = [
     {"id": 1, "name": "Margherita", "price": 5.00, "image": "1.webp"},
@@ -19,11 +22,19 @@ pizza_menu = [
 ]
 
 
+class CreditCardForm(Form):
+    card_name = StringField('Card Name', validators=[DataRequired(), Length(min=2, max=50)])
+    card_number = StringField('Card Number', validators=[DataRequired(), Regexp(r'^(?:\d{4} ){3}\d{4}$'), Length(min=17, max=19)])
+    card_expiry = StringField('Exp Date', validators=[DataRequired(), Regexp(r'^(0[1-9]|1[0-2])\/\d{2}$'), Length(min=4, max=5)])
+    card_cvv = StringField('CVV', validators=[DataRequired(), Length(min=4, max=4)])
+
+
 class CheckoutForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
     address = StringField('Address', validators=[DataRequired(), Length(min=10, max=100)])
     email = EmailField('Email', validators=[DataRequired(), Email()])
-    phone = TelField('Phone', validators=[DataRequired(), Regexp(r'^\d+$', message="Phone number must be digits only"), Length(min=10, max=15)])
+    phone = StringField('Phone', validators=[DataRequired(), Length(min=10, max=15)])
+    credit_card = FormField(CreditCardForm)
     submit = SubmitField('Place Order')
 
 
@@ -99,10 +110,8 @@ def update_item():
     item_id = int(data.get('item_id'))
     quantity = int(data.get('quantity', 1))
     action = data.get('action', 'update')
-
     if 'cart' not in session or not session['cart']:
         return jsonify({'success': False, 'message': 'Your cart is empty'})
-
     if action == 'remove' or quantity == 0:
         session['cart'] = [item for item in session['cart'] if item['id'] != item_id]
     else:
@@ -110,7 +119,6 @@ def update_item():
             if item['id'] == item_id:
                 item['quantity'] = quantity
                 break
-
     session.modified = True
     return jsonify({'success': True})
 
@@ -137,13 +145,13 @@ def checkout():
     user_agent = request.user_agent.string.lower()
     is_mobile = 'mobile' in user_agent
     form = CheckoutForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit():      
         timestamp = time.time()
         customer_info = {
             "name": form.name.data,
             "address": form.address.data,
             "email": form.email.data,
-            "phone": form.phone.data
+            "phone": form.phone.data,
         }
         order_details = session.get('cart', [])
         total_cost = calculate_order_total(order_details)
