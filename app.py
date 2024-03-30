@@ -134,6 +134,8 @@ def update_items_batch():
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
+    user_agent = request.user_agent.string.lower()
+    is_mobile = 'mobile' in user_agent
     form = CheckoutForm()
     if form.validate_on_submit():
         timestamp = time.time()
@@ -157,7 +159,7 @@ def checkout():
         return redirect(url_for('track_order', order_id=order_id))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
-        return render_template('checkout.html', form=form, total_cost=total_cost)
+        return render_template('checkout.html', is_mobile=is_mobile, form=form, total_cost=total_cost)
 
 
 @app.route('/track_order', methods=['GET', 'POST'])
