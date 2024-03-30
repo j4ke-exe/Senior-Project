@@ -6,15 +6,15 @@
     <meta property="og:title" content="Pizzazz Pizza" />
     <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp" />
     <meta property="og:description" content="Point-of-Sale Online Food Ordering System" />
-    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod">
+    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod" />
     <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="1024" />
     <title>Menu | Pizzazz Pizza</title>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='cart.js') }}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='cart.js') }}" defer></script>
 </head>
 <body>
     <div class="logo">
@@ -30,7 +30,7 @@
         <ul>
             <li><a href="/">HOME</a></li>
             <li><a href="/menu">MENU</a></li>
-            <li><a href="/cart" id="cart-link">CART</a></li>
+            <li><a href="/cart">CART</a></li>
         </ul>
     </nav>
     <div class="menu-container">
