@@ -69,16 +69,6 @@ function fetchCartItems() {
     .catch(error => console.error('Error:', error));
 }
 
-function updateCartCount() {
-    fetch('/get_cart_items')
-    .then(response => response.json())
-    .then(data => {
-        const cartCount = data.cart.reduce((total, item) => total + item.quantity, 0);
-        document.getElementById('cart-link').textContent = `CART(${cartCount})`;
-    })
-    .catch(error => console.error('Error:', error));
-}
-
 function populateCartItems(cartItems) {
     const tbody = document.querySelector('.cart-table tbody');
     tbody.innerHTML = '';
