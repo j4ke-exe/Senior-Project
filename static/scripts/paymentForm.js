@@ -1,32 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const cardNumberInput = document.getElementById('cardNumber');
-    const cardExpiryInput = document.getElementById('cardExpiry');
-    const cardCVVInput = document.getElementById('cardCVV');
+    const cardNameInput = document.getElementById('card-name');
+    const cardNumberInput = document.getElementById('card-number');
+    const cardExpiryInput = document.getElementById('card-expiry');
+    const cardCVVInput = document.getElementById('card-cvv');
     const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
 
-    cardNumberInput.addEventListener('input', function () {
-        this.value = this.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+    
+    cardNameInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z\s]/g, '');
     });
 
+    
+    cardNumberInput.addEventListener('input', function () {
+        let value = this.value.replace(/\D/g, '');
+        value = value.match(/.{1,4}/g)?.join(' ') ?? '';
+        this.value = value;
+    });
+
+    
     cardExpiryInput.addEventListener('input', function () {
-        var cleaned = this.value.replace(/\D/g, '').slice(0, 4);
-        if (cleaned.length > 2) {
-            this.value = cleaned.substring(0, 2) + '/' + cleaned.substring(2, 4);
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 4) value = value.slice(0, 4);
+        if (value.length > 2) {
+            const month = Math.min(parseInt(value.slice(0, 2), 10), 12);
+            const year = value.slice(2, 4);
+            this.value = `${month.toString().padStart(2, '0')}/${year}`;
         } else {
-            this.value = cleaned;
+            this.value = value;
         }
     });
+
 
     cardCVVInput.addEventListener('input', function () {
         this.value = this.value.replace(/\D/g, '').slice(0, 4);
     });
 
+
     phoneInput.addEventListener('input', function () {
-        var numbers = this.value.replace(/\D/g, ''),
-            char = {0: '(', 3: ') ', 6: '-'};
-        this.value = '';
-        for (var i = 0; i < numbers.length; i++) {
-            this.value += (char[i] || '') + numbers[i];
-        }
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.slice(0, 10);
+        value = value.replace(/^(\d{3})(\d{3})(\d{1,4})$/, '($1) $2-$3');
+        this.value = value;
+    });
+
+
+    emailInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z0-9@.\-_]/g, '');
     });
 });
