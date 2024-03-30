@@ -21,20 +21,17 @@ function initializeAddToCartForms() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
-
             fetch('/add_to_cart', {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json',
-                },
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
             .then(data => {
-                if (data.success) {
-                    console.log(data.message);
-                    fetchCartItems();
-                }
+                console.log(data.message);
+                fetchCartItems();
             })
             .catch(error => console.error('Error:', error));
         });
