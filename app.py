@@ -67,7 +67,7 @@ def add_to_cart():
         else:
             session['cart'].append({'id': pizza_id, 'name': pizza['name'], 'price': pizza['price'], 'quantity': quantity})
         session.modified = True
-    return render_template('menu.html', menu=pizza_menu)
+    return jsonify({'success': True, 'message': 'Item added to cart'})
 
 
 @app.route('/cart')
