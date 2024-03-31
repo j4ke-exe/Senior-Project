@@ -107,25 +107,6 @@ def clear_cart():
 @app.route('/update_item', methods=['POST'])
 def update_item():
     data = request.get_json()
-    item_id = int(data.get('item_id'))
-    quantity = int(data.get('quantity', 1))
-    action = data.get('action', 'update')
-    if 'cart' not in session or not session['cart']:
-        return jsonify({'success': False, 'message': 'Your cart is empty'})
-    if action == 'remove' or quantity == 0:
-        session['cart'] = [item for item in session['cart'] if item['id'] != item_id]
-    else:
-        for item in session['cart']:
-            if item['id'] == item_id:
-                item['quantity'] = quantity
-                break
-    session.modified = True
-    return jsonify({'success': True})
-
-
-@app.route('/update_items_batch', methods=['POST'])
-def update_items_batch():
-    data = request.get_json()
     if 'cart' in session:
         for item in data['items']:
             item_id = int(item['item_id'])
