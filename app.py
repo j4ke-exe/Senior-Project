@@ -26,7 +26,7 @@ class CreditCardForm(Form):
     card_name = StringField('Card Name', validators=[DataRequired(), Length(min=2, max=50)])
     card_number = StringField('Card Number', validators=[DataRequired(), Regexp(r'^(?:\d{4} ){3}\d{4}$'), Length(min=17, max=19)])
     card_expiry = StringField('Exp Date', validators=[DataRequired(), Regexp(r'^(0[1-9]|1[0-2])\/\d{2}$'), Length(min=4, max=5)])
-    card_cvv = StringField('CVV', validators=[DataRequired(), Length(min=3, max=4)])
+    card_cvv = StringField('CVV', validators=[DataRequired(), Length(min=3, max=3)])
 
 
 class CheckoutForm(FlaskForm):
