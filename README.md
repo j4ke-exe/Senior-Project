@@ -9,10 +9,6 @@
 </h3>
 
 <p align="center">
-  <a href="https://github.com/j4ke-exe/Senior-Project"><strong>Explore Documents</strong></a>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/github/contributors/j4ke-exe/Senior-Project?color=dark-green" alt="Contributors"> 
   <img src="https://img.shields.io/github/stars/j4ke-exe/Senior-Project?style=social" alt="Stargazers">
 </p>
