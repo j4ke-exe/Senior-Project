@@ -3,12 +3,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const cardNumberInput = document.getElementById('card-number');
     const cardExpiryInput = document.getElementById('card-expiry');
     const cardCVVInput = document.getElementById('card-cvv');
+    const nameInput = document.getElementById('name');
+    const addressInput = document.getElementById('address');
     const phoneInput = document.getElementById('phone');
     const emailInput = document.getElementById('email');
 
     
     cardNameInput.addEventListener('input', function () {
-        this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+        this.value = this.value.replace(/[^A-Za-z\s.-]/g, '');
     });
 
     
@@ -35,6 +37,16 @@ document.addEventListener('DOMContentLoaded', function () {
     cardCVVInput.addEventListener('input', function () {
         this.value = this.value.replace(/\D/g, '').slice(0, 4);
     });
+
+
+    nameInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z\s.-]/g, '');
+    });
+
+
+    addressInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z0-9\s.,-]/g, '');
+    });    
 
 
     phoneInput.addEventListener('input', function () {
