@@ -157,11 +157,13 @@ def thankyou():
     user_agent = request.user_agent.string.lower()
     is_mobile = 'mobile' in user_agent
     current_time = datetime.now()
+    delivery_time = current_time + timedelta(minutes=45)
+    delivery_formatted = delivery_time.strftime("%#I:%M %p")
     order_id = request.args.get('order_id') or request.form.get('order_id')
     order = orders_db.get(order_id) if order_id else None
     if order:
         order['total_cost'] = calculate_order_total(order['order_details'])
-        order['delivery'] = (current_time + timedelta(minutes=45)).strftime("%#I:%M %p")
+        order['delivery'] = delivery_formatted
     return render_template('thankyou.html', is_mobile=is_mobile, order=order, order_id=order_id)
 
 
