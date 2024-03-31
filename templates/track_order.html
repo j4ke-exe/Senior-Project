@@ -14,7 +14,6 @@
   <div class="video-background">
     <video loop muted autoplay playsinline>
       <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
-      Your browser does not support the video tag.
     </video>
   </div>
   <nav>
@@ -24,32 +23,45 @@
       <li><a href="/cart">CART</a></li>
     </ul>
   </nav>
-  {% if order %}
-    <div class="content">
-      <div class="order-details">
-        <h2>Order ID: {{ order_id }}</h2>
-        <p><strong>Name:</strong> {{ order['customer_info']['name'] }}</p>
-        <p><strong>Address:</strong> {{ order['customer_info']['address'] }}</p>
-        <p><strong>Email:</strong> {{ order['customer_info']['email'] }}</p>
-        <p><strong>Phone:</strong> {{ order['customer_info']['phone'] }}</p>
-        <p><strong>Order Time:</strong> {{ order.formatted_timestamp }}</p>
-        <p><strong>Order Status:</strong> {{ order['status'] }}</p>
-        <h3>Items Ordered:</h3>
-        <ul>
-          {% for item in order['order_details'] %}
-            <li>{{ item['name'] }} - Quantity: {{ item['quantity'] }}</li>
-          {% endfor %}
-        </ul>
-        <p><strong>Total Cost:</strong> ${{ '%.2f'|format(order['total_cost']) }}</p>
+  <div class="content">
+    <div class="track-order-summary">
+      <div class="track-table-heading">
+        <p>THANK YOU</p>
       </div>
-    </div>
-  {% else %}
-    <p>Order not found. Please check the Order ID and try again.</p>
-  {% endif %}
-  {% if is_mobile %}
-    <footer class="footer-mobile">&copy; 2024 Pizzazz &nbsp; - &nbsp; All Rights Reserved</footer>
-  {% else %}
-    <footer class="footer-desktop">&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
-  {% endif %}
+      <div class="track-form-row">
+        <label>ID:</label><span>{{ order_id }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Name:</label><span>{{ order['customer_info']['name'] }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Address:</label><span>{{ order['customer_info']['address'] }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Email:</label><span>{{ order['customer_info']['email'] }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Phone:</label><span>{{ order['customer_info']['phone'] }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Time:</label><span></label><span>{{ order.formatted_timestamp }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Status:</label><span>{{ order['status'] }}</span>
+      </div>
+      <div class="track-form-row">
+        <label>Order:</label>
+        <ul>
+        {% for item in order['order_details'] %}
+          <li>{{ item['name'] }} - {{ item['quantity'] }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="track-form-row-total">
+        <label>Total: <span>&nbsp;${{ '%.2f'|format(order['total_cost']) }}</span></label>
+      </div>
+    </div>      
+  </div>
+  <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
 </body>
 </html>
