@@ -5,7 +5,7 @@
 </p>
 
 <h3 align="center">
-  POS - Online Food Ordering System
+  Point-of-Sale - Online Food Ordering System
 </h3>
 
 <p align="center">
