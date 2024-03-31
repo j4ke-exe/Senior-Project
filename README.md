@@ -23,7 +23,7 @@
 
 ## Built With
 
-Flask, JavaScript, HTML, and CSS.
+Python (Flask), JavaScript, HTML, and CSS.
 
 ## Installation
 
