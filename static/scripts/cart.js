@@ -143,29 +143,6 @@ function initializeQuantityChangeListeners() {
 }
 
 
-function updateCartItem(itemId, quantity) {
-    const action = quantity === "0" ? "remove" : "update";
-    fetch('/update_item', {
-        method: 'POST',
-        body: JSON.stringify({ item_id: itemId, quantity: action === "remove" ? 1 : quantity, action }),
-        headers: { 'Content-Type': 'application/json' },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log(action === "update" ? 'Cart updated' : 'Item removed');
-            if (action === "remove") {
-                document.querySelector(`[data-item-id="${itemId}"]`).remove();
-            }
-            fetchCartItems();
-        } else {
-            console.error('Failed to update or remove item:', data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-
 function initializeUpdateButton() {
     const updateCartBtn = document.querySelector('.btn-update-cart');
     if (updateCartBtn) {
@@ -174,7 +151,7 @@ function initializeUpdateButton() {
                 item_id: input.closest('form.quantity-form').querySelector('input[name="item_id"]').value,
                 quantity: input.value,
             }));
-            fetch('/update_items_batch', {
+            fetch('/update_item', {
                 method: 'POST',
                 body: JSON.stringify({ items }),
                 headers: { 'Content-Type': 'application/json' },
