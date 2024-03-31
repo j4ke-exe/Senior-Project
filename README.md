@@ -19,7 +19,7 @@
 
 ## Preview
 
-![Screen Shot](https://github.com/j4ke-exe/Senior-Project/blob/main/readme/images/preview.png)
+![Screen Shot](https://github.com/j4ke-exe/Senior-Project/blob/main/readme/images/example.png)
 
 ## Built With
 
