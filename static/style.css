@@ -5,7 +5,9 @@
    box-sizing: border-box;
 }
 
-body, a, p {
+body,
+a,
+p {
    font-family: 'Lato', sans-serif;
    background-size: cover;
    color: #fff;
@@ -15,7 +17,8 @@ body, a, p {
    margin-top: 10px;
 }
 
-body, html {
+body,
+html {
    height: 100%;
    margin: 0;
 }
@@ -163,7 +166,8 @@ input[type="number"]::-webkit-inner-spin-button {
    margin: 0;
 }
 
-.btn, .btn-update-cart {
+.btn,
+.btn-update-cart {
    background-color: rgba(112, 112, 112, 0.2);
    color: #fff;
    border: none;
@@ -188,7 +192,8 @@ input[type="number"]::-webkit-inner-spin-button {
    pointer-events: none;
 }
 
-.btn:hover, .btn-update-cart:hover {
+.btn:hover,
+.btn-update-cart:hover {
    background-color: rgba(141, 95, 25, 0.8);
 }
 
@@ -203,8 +208,113 @@ input[type="number"]::-webkit-inner-spin-button {
    text-align: center;
 }
 
+.checkout-input {
+   background-color: rgba(99, 99, 99, 0.2);
+   color: #fff;
+   border: 0px rgba(255, 255, 255, 0.4);
+   border-radius: 5px;
+   padding: 6px 12px;
+   margin: 5px;
+   width: 300px;
+   text-align: left;
+}
+
+/* Checkout Form */
+.form-row {
+   display: flex;
+   align-items: center;
+   justify-content: right;
+   margin-bottom: 15px;
+}
+
+.form-row label {
+   text-align: left;
+   width: 30%;
+   margin-right: 2%;
+}
+
+.form-row-total {
+   text-align: right;
+   margin-right: 1.3%;
+   margin-bottom: 2%;
+}
+
+.checkout-input {
+   flex-basis: 130%;
+   align-items: left;
+   display: block;
+}
+
+.label-input-mobile {
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   margin-bottom: 10px;
+}
+
+.label-input-mobile label {
+   margin-bottom: 5px;
+}
+
+.checkout-heading p {
+   text-align: center;
+   width: 100%;
+   margin: 30px 0;
+}
+
+/* Track Order */
+.track-order-summary {
+   background-color: rgb(0, 0, 0);
+   border-radius: 10px;
+   padding: 20px;
+   width: 100%;
+   max-width: 800px;
+   margin: auto;
+   transform: translate(0%, -10%);
+}
+
+.track-table-heading p {
+   text-align: center;
+   margin-bottom: 30px;
+   color: white;
+}
+
+.track-form-row {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 15px;
+   position: center;
+}
+
+.track-form-row label {
+   flex: 0 0 35%;
+   text-align: right;
+   padding-right: 2rem;
+}
+
+.track-form-row li,
+.track-form-row span,
+.track-form-row ul {
+   flex: 0 0 65%;
+   text-align: left;
+   list-style: none;
+}
+
+.track-form-row-total {
+   background-color: rgba(99, 99, 99, 0.2);
+   color: rgb(255, 255, 255);
+   text-align: center;
+   width: 100%;
+   margin-top: 2rem;
+   padding-top: 5px;
+   padding-bottom: 5px;
+}
+
+
 /* Tables */
-table, .cart-table, .checkout-table {
+table,
+.cart-table {
    background-color: rgb(0, 0, 0);
    border-radius: 10px;
    border-spacing: 0;
@@ -220,71 +330,49 @@ table, .cart-table, .checkout-table {
    z-index: 2;
 }
 
-th, td {
+table,
+.checkout-table {
+   background-color: rgb(0, 0, 0);
+   border-radius: 10px;
+   border-spacing: 0;
+   padding: 20px;
+   width: calc(60% - 30px);
+   max-width: 650px;
+   max-height: 100%;
+   text-align: center;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -60%);
+   z-index: 2;
+}
+
+table,
+.order-summary-table {
+   background-color: rgb(0, 0, 0);
+   border-radius: 10px;
+   border-spacing: 0;
+   padding: 20px;
+   width: calc(60% - 30px);
+   max-width: 650px;
+   max-height: 100%;
+   text-align: center;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -60%);
+   z-index: 2;
+}
+
+th,
+td {
    padding: 10px;
    border: 1px solid rgba(75, 75, 75, 0.349);
    background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Responsive Styles */
-@media (max-width: 768px) {
-   .logo {
-      position: fixed;
-      width: 200px;
-   }
-
-   .logo-mobile {
-      display: none;
-   }
-
-   .footer-mobile {
-      background-color: rgb(0, 0, 0);
-      color: #fff;
-      text-align: center;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      padding: 12px 0;
-      z-index: 1000;
-   }
-
-   .menu-items {
-      user-select: none;
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      align-items: center;
-      justify-items: center;
-      padding-top: 6vh;
-      padding-bottom: 12vh;
-   }
-
-   .menu-item {
-      background-color: rgb(0, 0, 0);
-      border-radius: 10px;
-     
-
- margin: 15px;
-      padding: 7px;
-      width: 300px;
-      max-width: 100%;
-      flex: 1 1 calc(33.333% - 30px);
-      max-height: 1000px;
-      text-align: center;
-      transition: transform 0.3s ease;
-      z-index: 2;
-   }
-
-   table, .cart-table, .checkout-table {
-      width: 90%;
-      max-width: 200px;
-      height: 100vh;
-      position: center;
-      margin: auto;
-      transform: none;
-   }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 913px) {
    .logo {
       position: fixed;
    }
@@ -338,7 +426,9 @@ th, td {
       padding: auto;
    }
 
-   .cart-table, .checkout-table {
+   .cart-table,
+   .checkout-table,
+   .track-order-summary {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
@@ -348,17 +438,66 @@ th, td {
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
       padding: 20px;
-      width: calc(100% - 20px);
-      max-width: 400px;
-      height: auto;
-      max-height: 93vh;
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      max-height: 95vh;
       text-align: center;
       z-index: 2;
+      overflow-y: auto;
       overflow: auto;
-  }
+   }
+
+   .checkout-table .btn {
+      width: 100px;
+      margin: 0 auto;
+      display: block;
+   }
+
+   label,
+   .track-form-row .form-row {
+      text-align: right;
+      padding-left: 1%;
+      padding-bottom: 3px;
+      width: 100%;
+      flex-basis: 30%;
+   }
+
+   .track-form-row,
+   .form-row {
+      width: 100%;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+   }
+
+   .track-form-row label {
+      align-items: right;
+      text-align: right;
+      margin-left: 1rem;
+   }
+
+   .track-form-row .span,
+   .form-row .span {
+      text-align: right;
+      margin: 0;
+      width: 100%;
+   }
+
+   .track-form-row,
+   .form-row-total {
+      text-align: right;
+      margin-bottom: 5%;
+      padding-top: 15px;
+      width: 100%;
+   }
+
+   .checkout-input {
+      width: 100%;
+      margin: 0;
+   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 541px) {
    .logo {
       position: fixed;
    }
@@ -409,37 +548,93 @@ th, td {
       overflow-y: auto;
    }
 
-   .cart-table {
+   .cart-table,
+   .checkout-table {
       position: relative;
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
       width: 100%;
+      max-width: 100%;
       height: 100vh;
-      max-width: 550px;
       min-height: 200px;
       text-align: center;
       z-index: 2;
-      margin-top: 0;
+      margin: 0 auto;
       overflow-y: auto;
    }
 
-   .checkout-table {
+   .track-order-summary {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
       top: 0rem;
-      right: 2rem;
       bottom: 0rem;
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
       padding: 20px;
-      width: calc(90% - 30px);
-      max-width: 300px;
-      max-height: 178px;
+      width: 1000px;
+      max-width: 100%;
       text-align: center;
       z-index: 2;
       overflow: auto;
-      height: 100vh;
+      height: 100%;
+      max-height: 92vh;
       overflow-y: auto;
    }
+
+   .track-form-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      position: center;
+   }
+
+   .track-form-row label {
+      flex: 0 0 1%;
+      text-align: right;
+      padding-right: 2rem;
+   }
+
+   .track-form-row li,
+   .track-form-row span,
+   .track-form-row ul {
+      flex: 0 0 65%;
+      text-align: left;
+      list-style: none;
+   }
+
+   .form-row {
+      width: 100%;
+      align-items: left;
+      justify-content: right;
+      margin-bottom: 15px;
+   }
+
+   .form-row label {
+      text-align: left;
+      padding-left: 1%;
+      padding-bottom: 3px;
+      width: 100%;
+   }
+
+   .form-row-total {
+      text-align: center;
+      margin-bottom: 5%;
+      padding-top: 15px;
+   }
+
+   .checkout-input {
+      width: 100%;
+      flex-basis: 100%;
+      align-items: left;
+      margin: 0;
+   }
+
+   .checkout-table .btn {
+      width: 100px;
+      margin: 0 auto;
+      display: block;
+   }
+}
 }
