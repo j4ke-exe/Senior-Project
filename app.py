@@ -2,7 +2,7 @@ import os, uuid, time, datetime
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, Length, Regexp
 from wtforms import StringField, SubmitField, EmailField, FormField, Form
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for, flash
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 
 
 app = Flask(__name__)
