@@ -1,5 +1,6 @@
-import os, uuid, time, datetime 
+import os, uuid, time
 from flask_wtf import FlaskForm
+from datetime import datetime, timedelta
 from wtforms.validators import DataRequired, Email, Length, Regexp
 from wtforms import StringField, SubmitField, EmailField, FormField, Form
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
@@ -155,17 +156,12 @@ def checkout():
 def thankyou():
     user_agent = request.user_agent.string.lower()
     is_mobile = 'mobile' in user_agent
+    current_time = datetime.now()
     order_id = request.args.get('order_id') or request.form.get('order_id')
     order = orders_db.get(order_id) if order_id else None
     if order:
-        order['formatted_timestamp'] = datetime.datetime.fromtimestamp(order['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
         order['total_cost'] = calculate_order_total(order['order_details'])
-        order['estimated_delivery'] = "45 minutes after order placement"
-        elapsed_time = time.time() - order["timestamp"]
-        if elapsed_time > 5:
-            order["status"] = "In Delivery"
-        if elapsed_time > 15:
-            order["status"] = "Delivered"
+        order['delivery'] = (current_time + timedelta(minutes=45)).strftime("%#I:%M %p")
     return render_template('thankyou.html', is_mobile=is_mobile, order=order, order_id=order_id)
 
 
