@@ -164,14 +164,14 @@ def checkout():
             "total_cost": total_cost
         }
         session.pop('cart', None)
-        return redirect(url_for('track_order', order_id=order_id))
+        return redirect(url_for('thankyou', order_id=order_id))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
         return render_template('checkout.html', is_mobile=is_mobile, form=form, total_cost=total_cost)
 
 
-@app.route('/track_order', methods=['GET', 'POST'])
-def track_order():
+@app.route('/thankyou', methods=['GET', 'POST'])
+def thankyou():
     user_agent = request.user_agent.string.lower()
     is_mobile = 'mobile' in user_agent
     order_id = request.args.get('order_id') or request.form.get('order_id')
@@ -185,7 +185,7 @@ def track_order():
             order["status"] = "In Delivery"
         if elapsed_time > 15:
             order["status"] = "Delivered"
-    return render_template('track_order.html', is_mobile=is_mobile, order=order, order_id=order_id)
+    return render_template('thankyou.html', is_mobile=is_mobile, order=order, order_id=order_id)
 
 
 if __name__ == '__main__':
