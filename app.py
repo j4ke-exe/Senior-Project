@@ -55,10 +55,8 @@ def home():
 
 @app.route('/menu')
 def menu():
-    user_agent = request.user_agent.string.lower()
-    is_mobile = 'mobile' in user_agent
     cart_id = [item['id'] for item in session.get('cart', [])]
-    return render_template('menu.html', is_mobile=is_mobile, menu=pizza_menu, cart_id=cart_id)
+    return render_template('menu.html', menu=pizza_menu, cart_id=cart_id)
 
 
 @app.route('/add_to_cart', methods=['POST'])
@@ -84,10 +82,8 @@ def add_to_cart():
 
 @app.route('/cart')
 def cart():
-    user_agent = request.user_agent.string.lower()
-    is_mobile = 'mobile' in user_agent
     total_cost = calculate_order_total(session.get('cart', []))
-    return render_template('cart.html', is_mobile=is_mobile, cart=session.get('cart', []), total_cost=total_cost)
+    return render_template('cart.html', cart=session.get('cart', []), total_cost=total_cost)
 
 
 @app.route('/get_cart_items')
@@ -124,8 +120,6 @@ def update_item():
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
-    user_agent = request.user_agent.string.lower()
-    is_mobile = 'mobile' in user_agent
     form = CheckoutForm()
     if form.validate_on_submit():      
         timestamp = time.time()
@@ -149,13 +143,11 @@ def checkout():
         return redirect(url_for('thankyou', order_id=order_id))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
-        return render_template('checkout.html', is_mobile=is_mobile, form=form, total_cost=total_cost)
+        return render_template('checkout.html', form=form, total_cost=total_cost)
 
 
 @app.route('/thankyou', methods=['GET', 'POST'])
 def thankyou():
-    user_agent = request.user_agent.string.lower()
-    is_mobile = 'mobile' in user_agent
     current_time = datetime.now()
     delivery_time = current_time + timedelta(minutes=45)
     delivery_formatted = delivery_time.strftime("%#I:%M %p")
@@ -164,7 +156,7 @@ def thankyou():
     if order:
         order['total_cost'] = calculate_order_total(order['order_details'])
         order['delivery'] = delivery_formatted
-    return render_template('thankyou.html', is_mobile=is_mobile, order=order, order_id=order_id)
+    return render_template('thankyou.html', order=order, order_id=order_id)
 
 
 if __name__ == '__main__':
