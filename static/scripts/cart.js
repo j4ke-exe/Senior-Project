@@ -1,21 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    initializeQuantityChangeListeners();
     initializeAddToCartForms();
-    initializeClearCartButton();
     fetchCartItems();
+    initializeClearCartButton();
     initializeUpdateButton();
 });
-
-
-function initializeQuantityChangeListeners() {
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('change', event => {
-            const itemId = input.closest('form.quantity-form').querySelector('input[name="item_id"]').value;
-            const quantity = event.target.value;
-            updateCartItem(itemId, quantity);
-        });
-    });
-}
 
 
 function initializeAddToCartForms() {
@@ -23,7 +11,7 @@ function initializeAddToCartForms() {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             const formData = new FormData(this);
-            fetch('/add_to_cart', {
+            fetch('/menu', {
                 method: 'POST',
                 body: formData,
             })
@@ -32,34 +20,24 @@ function initializeAddToCartForms() {
                 return response.json();
             })
             .then(data => {
-                if(data.success) {
-                    console.log(data.message);
-                    fetchCartItems();
-                    updateCartCount();
+                if (data.success) {
+                    const quantityInput = this.querySelector('input[name="quantity"]');
+                    if (quantityInput) {
+                        quantityInput.remove();
+                    }
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.textContent = "Added";
+                        submitButton.classList.add("btn-added");
+                        submitButton.disabled = true;
+                    }
+                } else {
+                    console.error('Error adding item to cart:', data.message);
                 }
             })
             .catch(error => console.error('Error:', error));
         });
     });
-}
-
-
-function updateCartItem(itemId, quantity) {
-    fetch('/update_item', {
-        method: 'POST',
-        body: JSON.stringify({ item_id: itemId, quantity: quantity }),
-        headers: { 'Content-Type': 'application/json' },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Cart updated');
-            fetchCartItems();
-        } else {
-            console.error('Failed to update item:', data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
 }
 
 
@@ -69,6 +47,34 @@ function fetchCartItems() {
     .then(data => {
         populateCartItems(data.cart);
         document.getElementById('total-cost').textContent = data.total_cost.toFixed(2);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+function initializeClearCartButton() {
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', clearCart);
+    }
+}
+
+
+function clearCart() {
+    fetch('/clear_cart', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Cart cleared');
+            document.querySelector('.cart-table tbody').innerHTML = '';
+            document.getElementById('total-cost').textContent = '0.00';
+            fetchCartItems();
+        } else {
+            console.error('Error clearing cart:', data.message);
+        }
     })
     .catch(error => console.error('Error:', error));
 }
@@ -96,49 +102,6 @@ function populateCartItems(cartItems) {
             <td>$${(parseFloat(item.price) * parseInt(item.quantity)).toFixed(2)}</td>
         `;
         tbody.appendChild(row);
-    });
-}
-
-
-function clearCart() {
-    fetch('/clear_cart', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            console.log('Cart cleared');
-            document.querySelector('.cart-table tbody').innerHTML = '';
-            document.getElementById('total-cost').textContent = '0.00';
-            fetchCartItems();
-        } else {
-            console.error('Error clearing cart:', data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-
-function initializeClearCartButton() {
-    const clearCartBtn = document.getElementById('clear-cart-btn');
-    if (clearCartBtn) {
-        clearCartBtn.addEventListener('click', clearCart);
-    }
-}
-
-
-let debounceTimeout;
-function initializeQuantityChangeListeners() {
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        input.addEventListener('input', event => {
-            clearTimeout(debounceTimeout);
-            debounceTimeout = setTimeout(() => {
-                const itemId = event.target.closest('form.quantity-form').querySelector('input[name="item_id"]').value;
-                const quantity = event.target.value;
-                updateCartItem(itemId, quantity);
-            }, 100);
-        });
     });
 }
 
