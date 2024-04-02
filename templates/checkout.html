@@ -1,85 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Pizzazz Pizza" />
-  <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp" />
-  <meta property="og:description" content="Point-of-Sale Online Food Ordering System" />
-  <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod" />
-  <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app" />
-  <meta property="og:image:width" content="1024" />
-  <meta property="og:image:height" content="1024" />
-  <title>Checkout | Pizzazz Pizza</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="{{ url_for('static', filename='scripts/paymentForm.js') }}" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Pizzazz Pizza">
+    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp">
+    <meta property="og:description" content="Point-of-Sale Online Food Ordering System">
+    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod">
+    <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <title>Checkout | Pizzazz Pizza</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='scripts/paymentForm.js') }}" defer></script>
 </head>
 <body>
-  <div class="logo">
-    <img src="/static/images/logo.svg" class="logo logo-mobile">
-  </div>
-  <div class="video-background">
-    <video loop muted autoplay playsinline>
-      <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
-    </video>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="/">HOME</a></li>
-      <li><a href="/menu">MENU</a></li>
-      <li><a href="/cart">CART</a></li>
-    </ul>
-  </nav>
-  <div class="content">
-    <form action="{{ url_for('checkout') }}" method="POST" class="checkout-table">
-      {{ form.hidden_tag() }}
-      <div class="checkout-heading">
-        <p>Customer Information</p>
-      </div>
-      <div class="form-row">
-        <label for="name">Name</label>
-        {{ form.name(class_='checkout-input', id='name') }}
-      </div>
-      <div class="form-row">
-        <label for="address">Address</label>
-        {{ form.address(class_='checkout-input', id='address') }}
-      </div>
-      <div class="form-row">
-        <label for="email">Email</label>
-        {{ form.email(class_='checkout-input', id='email') }}
-      </div>
-      <div class="form-row">
-        <label for="phone">Phone</label>
-        {{ form.phone(class_='checkout-input', id='phone') }}
-      </div>
-      <div class="checkout-heading">
-        <p>Payment Details</p>
-      </div>
-      <div class="form-row">
-        <label for="card-name">Name</label>
-        {{ form.credit_card.card_name(class_='checkout-input', id='card-name') }}
-      </div>
-      <div class="form-row">
-        <label for="card-number">Number</label>
-        {{ form.credit_card.card_number(class_='checkout-input', id='card-number') }}
-      </div>
-      <div class="form-row">
-        <label for="card-expiry">Exp Date</label>
-        {{ form.credit_card.card_expiry(class_='checkout-input', id='card-expiry') }}
-      </div>
-      <div class="form-row">
-        <label for="card-cvv">CVV</label>
-        {{ form.credit_card.card_cvv(class_='checkout-input', id='card-cvv') }}
-      </div>
-      <div class="form-row-total">
-        <label>Total Cost: ${{ '%.2f'|format(total_cost) }}</label>
-      </div>
-      <div class="form-row">
-        <button type="submit" class="btn">Place Order</button>
-      </div>
-    </form>
-  </div>
-  <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+    <div class="logo">
+        <img src="/static/images/logo.svg" class="logo logo-mobile">
+    </div>
+    <div class="video-background">
+        <video loop muted autoplay playsinline>
+            <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/menu">MENU</a></li>
+            <li><a href="/cart">CART</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <form action="{{ url_for('checkout') }}" method="POST" class="checkout-table">
+            {{ form.hidden_tag() }}
+            <div class="checkout-heading">
+                <p>Customer Information</p>
+            </div>
+            <div class="form-row">
+                <label for="name">Name</label>
+                {{ form.name(class_='checkout-input', id='name') }}
+            </div>
+            <div class="form-row">
+                <label for="address">Address</label>
+                {{ form.address(class_='checkout-input', id='address') }}
+            </div>
+            <div class="form-row">
+                <label for="email">Email</label>
+                {{ form.email(class_='checkout-input', id='email') }}
+            </div>
+            <div class="form-row">
+                <label for="phone">Phone</label>
+                {{ form.phone(class_='checkout-input', id='phone') }}
+            </div>
+            <div class="checkout-heading">
+                <p>Payment Details</p>
+            </div>
+            <div class="form-row">
+                <label for="card-name">Name</label>
+                {{ form.credit_card.card_name(class_='checkout-input', id='card-name') }}
+            </div>
+            <div class="form-row">
+                <label for="card-number">Number</label>
+                {{ form.credit_card.card_number(class_='checkout-input', id='card-number') }}
+            </div>
+            <div class="form-row">
+                <label for="card-expiry">Exp Date</label>
+                {{ form.credit_card.card_expiry(class_='checkout-input', id='card-expiry') }}
+            </div>
+            <div class="form-row">
+                <label for="card-cvv">CVV</label>
+                {{ form.credit_card.card_cvv(class_='checkout-input', id='card-cvv') }}
+            </div>
+            <div class="form-row-total">
+                <label>Total Cost: ${{ '%.2f'|format(total_cost) }}</label>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn">Place Order</button>
+            </div>
+        </form>
+    </div>
+    <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
 </body>
 </html>
