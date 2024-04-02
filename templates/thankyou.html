@@ -1,71 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Pizzazz Pizza" />
-  <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp" />
-  <meta property="og:description" content="Point-of-Sale Online Food Ordering System" />
-  <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod" />
-  <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app" />
-  <meta property="og:image:width" content="1024" />
-  <meta property="og:image:height" content="1024" />
-  <title>Thank You | Pizzazz Pizza</title>
-  <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Pizzazz Pizza">
+    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp">
+    <meta property="og:description" content="Point-of-Sale Online Food Ordering System">
+    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod">
+    <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <title>Thank You | Pizzazz Pizza</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="logo">
-    <img src="/static/images/logo.svg" class="logo logo-mobile">
-  </div>
-  <div class="video-background">
-    <video loop muted autoplay playsinline>
-      <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
-    </video>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="/">HOME</a></li>
-      <li><a href="/menu">MENU</a></li>
-      <li><a href="/cart">CART</a></li>
-    </ul>
-  </nav>
-  <div class="content">
-    <div class="track-order-summary">
-      <div class="track-table-heading">
-        <p>THANK YOU</p>
-      </div>
-      <div class="track-form-row">
-        <label>ID:</label><span>{{ order_id }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Name:</label><span>{{ order['customer_info']['name'] }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Address:</label><span>{{ order['customer_info']['address'] }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Email:</label><span>{{ order['customer_info']['email'] }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Phone:</label><span>{{ order['customer_info']['phone'] }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Delivery:</label><span></label><span>{{ order['delivery'] }}</span>
-      </div>
-      <div class="track-form-row">
-        <label>Order:</label>
+    <div class="logo">
+        <img src="/static/images/logo.svg" class="logo logo-mobile">
+    </div>
+    <div class="video-background">
+        <video loop muted autoplay playsinline>
+            <source src="{{ url_for('static', filename='videos/hero.mp4') }}" type="video/mp4">
+        </video>
+    </div>
+    <nav>
         <ul>
-        {% for item in order['order_details'] %}
-          <li>{{ item['name'] }} - {{ item['quantity'] }}</li>
-        {% endfor %}
+            <li><a href="/">HOME</a></li>
+            <li><a href="/menu">MENU</a></li>
+            <li><a href="/cart">CART</a></li>
         </ul>
-      </div>
-      <div class="track-form-row-total">
-        <label>Total: <span>&nbsp;${{ '%.2f'|format(order['total_cost']) }}</span></label>
-      </div>
-    </div>      
-  </div>
-  <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
+    </nav>
+    <div class="content">
+        <div class="track-order-summary">
+            <div class="track-table-heading">
+                <p>THANK YOU</p>
+            </div>
+            <div class="track-form-row">
+                <label>ID:</label><span>{{ order_id }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Name:</label><span>{{ order['customer_info']['name'] }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Address:</label><span>{{ order['customer_info']['address'] }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Email:</label><span>{{ order['customer_info']['email'] }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Phone:</label><span>{{ order['customer_info']['phone'] }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Delivery:</label><span>{{ order['delivery'] }}</span>
+            </div>
+            <div class="track-form-row">
+                <label>Order:</label>
+                <ul>
+                    {% for item in order['order_details'] %}
+                        <li>{{ item['name'] }} - {{ item['quantity'] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="track-form-row-total">
+                <label>Total: <span>&nbsp;${{ '%.2f'|format(order['total_cost']) }}</span></label>
+            </div>
+        </div>      
+    </div>
+    <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
 </body>
 </html>
