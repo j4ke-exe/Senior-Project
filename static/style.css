@@ -437,7 +437,7 @@ td {
    .cart-table,
    .checkout-table,
    .track-order-summary {
-      position: relative;
+      position: fixed;
       left: 50%;
       transform: translateX(-50%);
       top: 2rem;
@@ -448,10 +448,11 @@ td {
       padding: 20px;
       width: 100%;
       max-width: 1000px;
-      height: 100vh;
+      height: 95vh;
       max-height: 100%;
       text-align: center;
       z-index: 2;
+      overflow-y: auto;
    }
 
    .checkout-table .btn {
@@ -587,21 +588,39 @@ td {
       overflow-y: auto;
    }
 
-   .cart-table .cart-items {
-      position: absolute;
+   .cart-table, .cart-items {
+      position: fixed;
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
       width: 100%;
       max-width: 100vh;
-      height: 10%;
+      height: 92.5%;
       max-height: 100vh;
       text-align: center;
       z-index: 2;
-      overflow-y: hidden;
+      overflow-y: auto;
+   }
+
+   .checkout-table {
+      position: fixed;
+      background-color: rgb(0, 0, 0);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 100wh;
+      height: 95%;
+      max-height: 100vh;
+      text-align: center;
+      z-index: 2;
+      overflow-y: auto;
+   }
+
+   .checkout-table p {
+      margin-top: -10px;
+      margin-bottom: 30px;
    }
 
    .track-order-summary {
-      position: absolute;
+      position: fixed;
       left: 50%;
       transform: translateX(-50%);
       top: 0rem;
@@ -615,7 +634,7 @@ td {
       z-index: 2;
       overflow: auto;
       height: 100%;
-      max-height: 92vh;
+      max-height: 95vh;
       overflow-y: auto;
    }
 
