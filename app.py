@@ -40,12 +40,7 @@ class CheckoutForm(FlaskForm):
 
 
 def calculate_order_total(order_items):
-    total_cost = 0.0
-    for item in order_items:
-        pizza = next((pizza for pizza in pizza_menu if pizza['id'] == item['id']), None)
-        if pizza:
-            total_cost += pizza['price'] * item['quantity']
-    return round(total_cost, 2)
+    return round(sum(next((pizza['price'] for pizza in pizza_menu if pizza['id'] == item['id']), 0) * item['quantity'] for item in order_items), 2)
 
 
 @app.route('/')
@@ -53,31 +48,37 @@ def home():
     return render_template('home.html')
 
 
-@app.route('/menu')
+@app.route('/menu', methods=['POST', 'GET'])
 def menu():
-    cart_id = [item['id'] for item in session.get('cart', [])]
-    return render_template('menu.html', menu=pizza_menu, cart_id=cart_id)
-
-
-@app.route('/add_to_cart', methods=['POST'])
-def add_to_cart():
     if 'cart' not in session:
         session['cart'] = []
-    form_data = request.form
-    pizza_id = int(form_data['id'])
-    try:
-        quantity = int(form_data.get('quantity', '1'))
-    except ValueError:
-        quantity = 1
-    pizza = next((pizza for pizza in pizza_menu if pizza['id'] == pizza_id), None)
-    if pizza:
-        item_in_cart = next((item for item in session['cart'] if item['id'] == pizza_id), None)
-        if item_in_cart:
-            item_in_cart['quantity'] += quantity
+    if request.method == 'POST':
+        form_data = request.form
+        pizza_id_str = form_data.get('id')
+        quantity_str = form_data.get('quantity', '1')
+        if pizza_id_str and pizza_id_str.isdigit():
+            pizza_id = int(pizza_id_str)
+            quantity = int(quantity_str) if quantity_str.isdigit() else 1
+            pizza = next((pizza for pizza in pizza_menu if pizza['id'] == pizza_id), None)
+            if pizza:
+                item_in_cart = next((item for item in session['cart'] if item['id'] == pizza_id), None)
+                if item_in_cart:
+                    item_in_cart['quantity'] += quantity
+                else:
+                    session['cart'].append({
+                        'id': pizza_id, 
+                        'name': pizza['name'], 
+                        'price': pizza['price'], 
+                        'quantity': quantity
+                        })
+                session.modified = True
+                return jsonify({'success': True})
+            else:
+                return jsonify({'success': False, 'message': 'Pizza not found'}), 400
         else:
-            session['cart'].append({'id': pizza_id, 'name': pizza['name'], 'price': pizza['price'], 'quantity': quantity})
-        session.modified = True
-    return redirect(url_for('menu'))
+            return jsonify({'success': False, 'message': 'Invalid pizza ID or quantity'}), 400
+    cart_ids = [item['id'] for item in session.get('cart', [])]
+    return render_template('menu.html', menu=pizza_menu, cart_id=cart_ids)
 
 
 @app.route('/cart')
@@ -121,24 +122,24 @@ def update_item():
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
     form = CheckoutForm()
-    if form.validate_on_submit():      
+    if form.validate_on_submit():
         timestamp = time.time()
         customer_info = {
-            "name": form.name.data,
-            "address": form.address.data,
-            "email": form.email.data,
-            "phone": form.phone.data,
-        }
+            "name": form.name.data, 
+            "address": form.address.data, 
+            "email": form.email.data, 
+            "phone": form.phone.data
+            }
         order_details = session.get('cart', [])
         total_cost = calculate_order_total(order_details)
         order_id = str(uuid.uuid4())
         orders_db[order_id] = {
-            "customer_info": customer_info,
-            "order_details": order_details,
-            "status": "Processing",
-            "timestamp": timestamp,
+            "customer_info": customer_info, 
+            "order_details": order_details, 
+            "status": "Processing", 
+            "timestamp": timestamp, 
             "total_cost": total_cost
-        }
+            }
         session.pop('cart', None)
         return redirect(url_for('thankyou', order_id=order_id))
     else:
