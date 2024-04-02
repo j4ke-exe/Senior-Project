@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Pizzazz Pizza" />
-    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp" />
-    <meta property="og:description" content="Point-of-Sale Online Food Ordering System" />
-    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod" />
-    <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app" />
-    <meta property="og:image:width" content="1024" />
-    <meta property="og:image:height" content="1024" />
+    <meta property="og:title" content="Pizzazz Pizza">
+    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp">
+    <meta property="og:description" content="Point-of-Sale Online Food Ordering System">
+    <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod">
+    <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
     <title>Menu | Pizzazz Pizza</title>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='cart.js') }}" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts/cart.js') }}" defer></script>
 </head>
 <body>
     <div class="logo">
@@ -37,18 +36,13 @@
         <div class="menu-items">
             {% for pizza in menu %}
             <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/' + pizza.image) }}" alt="{{ pizza.name }}" draggable="false" />
+                <img src="{{ url_for('static', filename='images/' + pizza.image) }}" alt="{{ pizza.name }}" draggable="false">
                 <h2>{{ pizza.name }} <br> <span>${{ '%.2f'|format(pizza.price) }}</span></h2>
                 <div class="quantity-group">
-                    <form action="/add_to_cart" method="post" class="menu-form" data-action="add">
-                        <input type="hidden" name="id" value="{{ pizza.id }}" />
-                        {% if pizza.id in cart_id %}
-                        <input type="number" name="quantity" class="quantity-input" placeholder="&#x2713;" disabled />
-                        <button class="btn-added">Added</button>
-                        {% else %}
-                        <input type="number" name="quantity" min="1" max="20" class="quantity-input" placeholder="#" />
+                    <form action="/menu" method="post" class="menu-form" data-action="add">
+                        <input type="hidden" name="id" value="{{ pizza.id }}">
+                        <input type="number" name="quantity" class="quantity-input" placeholder="#">
                         <button type="submit" class="btn">Add to Cart</button>
-                        {% endif %}
                     </form>
                 </div>
             </div>
