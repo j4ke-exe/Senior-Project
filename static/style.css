@@ -437,7 +437,7 @@ td {
    .cart-table,
    .checkout-table,
    .track-order-summary {
-      position: absolute;
+      position: relative;
       left: 50%;
       transform: translateX(-50%);
       top: 2rem;
@@ -448,8 +448,8 @@ td {
       padding: 20px;
       width: 100%;
       max-width: 1000px;
-      height: 100%;
-      max-height: 95vh;
+      height: 100vh;
+      max-height: 100%;
       text-align: center;
       z-index: 2;
    }
@@ -489,17 +489,43 @@ td {
       width: 100%;
    }
 
-   .track-form-row,
-   .form-row-total {
+   p {
       text-align: right;
-      margin-bottom: 5%;
-      padding-top: 15px;
+      padding-top: 55px;
       width: 100%;
    }
 
    .checkout-input {
       width: 100%;
       margin: 0;
+   }
+
+   .btn,
+   .btn-update-cart {
+      background-color: rgba(112, 112, 112, 0.2);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      cursor: pointer;
+      margin: 3px 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      width: auto;
+      transition: background-color 0.3s;
+   }
+
+   .btn-added {
+      background-color: rgba(46, 151, 36, 0.521);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      cursor: pointer;
+      margin: 3px 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      width: auto;
+      transition: background-color 0.3s;
+      pointer-events: none;
    }
 }
 
@@ -556,164 +582,22 @@ td {
    }
 
    .content {
-      padding-top: 0px;
-      position: relative;
+      position: absolute;
       overflow-x: hidden;
       overflow-y: auto;
    }
 
-   .cart-table,
-   .checkout-table {
-      position: relative;
-      background-color: rgb(0, 0, 0);
-      border-radius: 10px;
-      width: 100%;
-      max-width: 100%;
-      height: 100vh;
-      min-height: 200px;
-      text-align: center;
-      z-index: 2;
-      margin: 0 auto;
-      overflow-y: auto;
-   }
-
-   .track-order-summary {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: 0rem;
-      bottom: 0rem;
-      background-color: rgb(0, 0, 0);
-      border-radius: 10px;
-      padding: 20px;
-      width: 1000px;
-      max-width: 100%;
-      text-align: center;
-      z-index: 2;
-      overflow: auto;
-      height: 100%;
-      max-height: 92vh;
-      overflow-y: auto;
-   }
-
-   .track-form-row {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      position: center;
-   }
-
-   .track-form-row label {
-      flex: 0 0 1%;
-      text-align: right;
-      padding-right: 2rem;
-   }
-
-   .track-form-row li,
-   .track-form-row span,
-   .track-form-row ul {
-      flex: 0 0 65%;
-      text-align: left;
-      list-style: none;
-   }
-
-   .form-row {
-      width: 100%;
-      align-items: left;
-      justify-content: right;
-      margin-bottom: 15px;
-   }
-
-   .form-row label {
-      text-align: left;
-      padding-left: 1%;
-      padding-bottom: 3px;
-      width: 100%;
-   }
-
-   .form-row-total {
-      text-align: center;
-      margin-bottom: 5%;
-      padding-top: 15px;
-   }
-
-   .checkout-input {
-      width: 100%;
-      flex-basis: 100%;
-      align-items: left;
-      margin: 0;
-   }
-
-   .checkout-table .btn {
-      width: 100px;
-      margin: 0 auto;
-      display: block;
-   }
-}
-
-@media (max-width: 541px) {
-   nav ul {
-      list-style: none;
-      display: flex;
-      width: 300px;
-      max-width: 1000px;
-      justify-content: space-around;
-   }
-
-   .logo {
-      position: fixed;
-   }
-
-   .logo-mobile {
-      display: none;
-   }
-
-   .menu-items {
-      user-select: none;
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      align-items: center;
-      justify-items: center;
-      padding-top: 6vh;
-      padding-bottom: 12vh;
-   }
-
-   .menu-item {
-      background-color: rgb(0, 0, 0);
-      border-radius: 10px;
-      margin: 15px;
-      padding: 7px;
-      width: 300px;
-      max-width: 100%;
-      flex: 1 1 calc(33.333% - 30px);
-      max-height: 1000px;
-      text-align: center;
-      transition: transform 0.3s ease;
-      z-index: 2;
-   }
-
-   .content {
-      position: fixed;
-      overflow-x: hidden;
-      overflow-y: auto;
-   }
-
-   .cart-table,
-   .checkout-table,
-   .cart-items {
+   .cart-table .cart-items {
       position: absolute;
       background-color: rgb(0, 0, 0);
       border-radius: 10px;
       width: 100%;
-      max-width: 100%;
-      height: 100%;
+      max-width: 100vh;
+      height: 10%;
       max-height: 100vh;
-      margin-top: 17px;
-      margin-bottom: 10px;
       text-align: center;
       z-index: 2;
-      overflow-y: auto;
+      overflow-y: hidden;
    }
 
    .track-order-summary {
@@ -800,6 +684,7 @@ td {
       margin: 3px 8px;
       font-size: 14px;
       border-radius: 5px;
+      width: auto;
       transition: background-color 0.3s;
    }
 
@@ -812,6 +697,183 @@ td {
       margin: 3px 8px;
       font-size: 14px;
       border-radius: 5px;
+      width: auto;
+      transition: background-color 0.3s;
+      pointer-events: none;
+   }
+}
+
+@media (max-width: 541px) {
+   nav ul {
+      list-style: none;
+      display: flex;
+      width: 300px;
+      max-width: 1000px;
+      justify-content: space-around;
+   }
+
+   .logo {
+      position: fixed;
+   }
+
+   .logo-mobile {
+      display: none;
+   }
+
+   .menu-items {
+      user-select: none;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      align-items: center;
+      justify-items: center;
+      padding-top: 6vh;
+      padding-bottom: 12vh;
+   }
+
+   .menu-item {
+      background-color: rgb(0, 0, 0);
+      border-radius: 10px;
+      margin: 15px;
+      padding: 7px;
+      width: 300px;
+      max-width: 100%;
+      flex: 1 1 calc(33.333% - 30px);
+      max-height: 1000px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      z-index: 2;
+   }
+
+   .content {
+      position: absolute;
+      overflow-x: hidden;
+      overflow-y: auto;
+   }
+
+   .cart-table .cart-items {
+      position: absolute;
+      background-color: rgb(0, 0, 0);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 100vh;
+      height: 100%;
+      max-height: 100vh;
+      text-align: center;
+      z-index: 2;
+      overflow-y: hidden;
+   }
+
+   .checkout-table {
+      position: fixed;
+      background-color: rgb(0, 0, 0);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 100vh;
+      height: 100vh;
+      max-height: 100vh;
+      text-align: center;
+      z-index: 2;
+      overflow-y: auto;
+   }
+   
+   .track-order-summary {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0rem;
+      bottom: 0rem;
+      background-color: rgb(0, 0, 0);
+      border-radius: 10px;
+      padding: 20px;
+      width: 1000px;
+      max-width: 100%;
+      text-align: center;
+      z-index: 2;
+      overflow: auto;
+      height: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+   }
+
+   .track-form-row {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      position: center;
+   }
+
+   .track-form-row label {
+      flex: 0 0 1%;
+      text-align: right;
+      padding-right: 2rem;
+   }
+
+   .track-form-row li,
+   .track-form-row span,
+   .track-form-row ul {
+      flex: 0 0 65%;
+      text-align: left;
+      list-style: none;
+   }
+
+   .form-row {
+      width: 100%;
+      align-items: left;
+      justify-content: right;
+      margin-bottom: 15px;
+   }
+
+   .form-row label {
+      text-align: left;
+      padding-left: 1%;
+      padding-bottom: 3px;
+      width: 100%;
+   }
+
+   .form-row-total {
+      text-align: center;
+      margin-bottom: 5%;
+      padding-top: 15px;
+   }
+
+   .checkout-input {
+      width: 100%;
+      flex-basis: 100%;
+      align-items: left;
+      margin: 0;
+   }
+
+   .checkout-table .btn {
+      width: 100px;
+      margin: 0 auto;
+      display: block;
+   }
+
+   .btn,
+   .btn-update-cart {
+      background-color: rgba(112, 112, 112, 0.2);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      cursor: pointer;
+      margin: 3px 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      width: auto;
+      transition: background-color 0.3s;
+   }
+
+   .btn-added {
+      background-color: rgba(46, 151, 36, 0.521);
+      color: #fff;
+      border: none;
+      padding: 6px 14px;
+      cursor: pointer;
+      margin: 3px 8px;
+      font-size: 14px;
+      border-radius: 5px;
+      width: auto;
       transition: background-color 0.3s;
       pointer-events: none;
    }
