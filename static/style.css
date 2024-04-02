@@ -73,7 +73,6 @@ nav ul {
 }
 
 nav ul li a {
-   padding: 10px 20px;
    border-radius: 5px;
    transition: color 0.3s;
 }
