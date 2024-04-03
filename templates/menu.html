@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Pizzazz Pizza">
-    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.png">
+    <meta property="og:image" content="https://pizzazz-senior-project.koyeb.app/static/images/thumbnail.webp">
     <meta property="og:description" content="Point-of-Sale Online Food Ordering System">
     <meta name="author" content="Jacob Garrison, Papitchaya Deehamhae, Nadiyah Glenn-Bracey, Jared McLeod">
     <meta property="og:url" content="https://pizzazz-senior-project.koyeb.app">
     <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="535">
+    <meta property="og:image:height" content="1024">
     <title>Menu | Pizzazz Pizza</title>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -36,17 +36,21 @@
         <div class="menu-items">
             {% for pizza in menu %}
             <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/' + pizza.image) }}" alt="{{ pizza.name }}" draggable="false">
+                <img src="{{ url_for('static', filename='images/' + pizza.image) }}" draggable="false">
                 <h2>{{ pizza.name }} <br> <span>${{ '%.2f'|format(pizza.price) }}</span></h2>
                 <div class="quantity-group">
+                    {% if pizza.id in cart_id %}
+                    <button class="btn-added" disabled>In Cart</button>
+                    {% else %}
                     <form action="/menu" method="post" class="menu-form" data-action="add">
                         <input type="hidden" name="id" value="{{ pizza.id }}">
-                        <input type="number" name="quantity" class="quantity-input" placeholder="#">
+                        <input type="number" name="quantity" class="quantity-input" placeholder="#" min="1">
                         <button type="submit" class="btn">Add to Cart</button>
                     </form>
+                    {% endif %}
                 </div>
             </div>
-            {% endfor %}
+            {% endfor %}           
         </div>
     </div>
     <footer>&copy; 2024 &nbsp; - &nbsp; All Rights Reserved</footer>
