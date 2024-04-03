@@ -47,10 +47,6 @@
                 {{ form.name(class_='checkout-input', id='name') }}
             </div>
             <div class="form-row">
-                <label for="address">Address</label>
-                {{ form.address(class_='checkout-input', id='address') }}
-            </div>
-            <div class="form-row">
                 <label for="email">Email</label>
                 {{ form.email(class_='checkout-input', id='email') }}
             </div>
@@ -64,6 +60,10 @@
             <div class="form-row">
                 <label for="card-name">Name</label>
                 {{ form.credit_card.card_name(class_='checkout-input', id='card-name') }}
+            </div>
+            <div class="form-row">
+                <label for="address">Address</label>
+                {{ form.credit_card.card_address(class_='checkout-input', id='card-address') }}
             </div>
             <div class="form-row">
                 <label for="card-number">Number</label>
