@@ -38,6 +38,27 @@ class CheckoutForm(FlaskForm):
     submit = SubmitField('Place Order')
 
 
+def base62_encode(num, alphabet="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+    if num == 0:
+        return alphabet[0]
+    base62 = []
+    while num:
+        num, rem = divmod(num, 62)
+        base62.append(alphabet[rem])
+    return ''.join(reversed(base62))
+
+
+def get_next_order_id():
+    uuid_int = uuid.uuid4().int
+    short_id = base62_encode(uuid_int)
+    return short_id[:8]
+
+
+def generate_order_id(prefix='TASTY_'):
+    next_order_id = get_next_order_id()
+    return f"{prefix}{next_order_id}"
+
+
 def calculate_order_total(order_items):
     return round(sum(next((pizza['price'] for pizza in pizza_menu if pizza['id'] == item['id']), 0) * item['quantity'] for item in order_items), 2)
 
@@ -129,26 +150,28 @@ def checkout():
         }
         order_details = session.get('cart', [])
         total_cost = calculate_order_total(order_details)
-        order_id = str(uuid.uuid4())
+        order_id = generate_order_id()
         orders_db[order_id] = {
             "customer_info": customer_info, 
             "order_details": order_details, 
             "total_cost": total_cost
         }
+        session['order_id'] = order_id
         session.pop('cart', None)
-        return redirect(url_for('thankyou', order_id=order_id))
+        return redirect(url_for('thankyou'))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
         return render_template('checkout.html', form=form, total_cost=total_cost, total_quantity=g.total_quantity)
 
 
-@app.route('/thankyou', methods=['GET', 'POST'])
+@app.route('/thankyou')
 def thankyou():
-    order_id = request.args.get('order_id') or request.form.get('order_id')
-    order = orders_db.get(order_id) if order_id else None
-    if order:
-        order['total_cost'] = calculate_order_total(order['order_details'])
-    return render_template('thankyou.html', order=order, order_id=order_id, total_quantity=g.total_quantity)
+    order_id = session.get('order_id')
+    if order_id:
+        order = orders_db.get(order_id)
+        return render_template('thankyou.html', order=order, order_id=order_id, total_quantity=g.total_quantity)
+    else:
+        return "Order not found", 404
 
 
 if __name__ == '__main__':
