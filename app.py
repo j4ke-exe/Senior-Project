@@ -1,9 +1,9 @@
-import os, uuid, time
+import os, time, uuid
 from flask_wtf import FlaskForm
 from datetime import datetime, timedelta
 from wtforms.validators import DataRequired, Email, Length, Regexp
 from wtforms import StringField, SubmitField, EmailField, FormField, Form
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, g, jsonify, redirect, render_template, request, session, url_for
 
 
 app = Flask(__name__)
@@ -43,48 +43,48 @@ def calculate_order_total(order_items):
     return round(sum(next((pizza['price'] for pizza in pizza_menu if pizza['id'] == item['id']), 0) * item['quantity'] for item in order_items), 2)
 
 
+@app.before_request
+def cart_quantity():
+    g.total_quantity = sum(item['quantity'] for item in session.get('cart', []))
+        
+
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', total_quantity=g.total_quantity)
 
 
 @app.route('/menu', methods=['POST', 'GET'])
 def menu():
     if 'cart' not in session:
         session['cart'] = []
+    cart_ids = [item['id'] for item in session['cart']]
     if request.method == 'POST':
         form_data = request.form
-        pizza_id_str = form_data.get('id')
+        pizza_id = int(form_data.get('id'))
         quantity_str = form_data.get('quantity', '1')
-        if pizza_id_str and pizza_id_str.isdigit():
-            pizza_id = int(pizza_id_str)
-            quantity = int(quantity_str) if quantity_str.isdigit() else 1
-            pizza = next((pizza for pizza in pizza_menu if pizza['id'] == pizza_id), None)
-            if pizza:
-                item_in_cart = next((item for item in session['cart'] if item['id'] == pizza_id), None)
-                if item_in_cart:
-                    item_in_cart['quantity'] += quantity
-                else:
-                    session['cart'].append({
-                        'id': pizza_id, 
-                        'name': pizza['name'], 
-                        'price': pizza['price'], 
-                        'quantity': quantity
-                        })
-                session.modified = True
-                return jsonify({'success': True})
+        quantity = int(quantity_str) if quantity_str.isdigit() else 1
+        pizza = next((pizza for pizza in pizza_menu if pizza['id'] == pizza_id), None)
+        if pizza:
+            item_in_cart = next((item for item in session['cart'] if item['id'] == pizza_id), None)
+            if item_in_cart:
+                item_in_cart['quantity'] += quantity
             else:
-                return jsonify({'success': False, 'message': 'Pizza not found'}), 400
+                session['cart'].append({
+                    'id': pizza_id, 
+                    'name': pizza['name'], 
+                    'price': pizza['price'], 
+                    'quantity': quantity
+                })
+            session.modified = True
+            return jsonify({'success': True, 'message': 'Item added to cart'})
         else:
-            return jsonify({'success': False, 'message': 'Invalid pizza ID or quantity'}), 400
-    cart_ids = [item['id'] for item in session.get('cart', [])]
-    return render_template('menu.html', menu=pizza_menu, cart_id=cart_ids)
+            return jsonify({'success': False, 'message': 'Item not found'}), 400
+    return render_template('menu.html', menu=pizza_menu, cart_id=cart_ids, total_quantity=g.total_quantity)
 
 
 @app.route('/cart')
 def cart():
-    total_cost = calculate_order_total(session.get('cart', []))
-    return render_template('cart.html', cart=session.get('cart', []), total_cost=total_cost)
+    return render_template('cart.html', cart=session.get('cart', []), total_quantity=g.total_quantity)
 
 
 @app.route('/get_cart_items')
@@ -144,7 +144,7 @@ def checkout():
         return redirect(url_for('thankyou', order_id=order_id))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
-        return render_template('checkout.html', form=form, total_cost=total_cost)
+        return render_template('checkout.html', form=form, total_cost=total_cost, total_quantity=g.total_quantity)
 
 
 @app.route('/thankyou', methods=['GET', 'POST'])
