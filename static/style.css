@@ -268,7 +268,7 @@ input[type="number"]::-webkit-inner-spin-button {
    border-radius: 10px;
    padding: 20px;
    width: 100%;
-   max-width: 800px;
+   max-width: 500px;
    margin: auto;
    transform: translate(0%, -10%);
 }
@@ -288,15 +288,15 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .track-form-row label {
-   flex: 0 0 35%;
+   flex: 0 0 40%;
    text-align: right;
-   padding-right: 2rem;
+   padding-right: 1.2rem;
 }
 
 .track-form-row li,
 .track-form-row span,
 .track-form-row ul {
-   flex: 0 0 65%;
+   flex: 0 0 60%;
    text-align: left;
    list-style: none;
 }
@@ -646,15 +646,15 @@ td {
    }
 
    .track-form-row label {
-      flex: 0 0 1%;
+      flex: 0 0 22%;
       text-align: right;
-      padding-right: 2rem;
+      padding-right: .2rem;
    }
 
    .track-form-row li,
    .track-form-row span,
    .track-form-row ul {
-      flex: 0 0 65%;
+      flex: 0 0 68%;
       text-align: left;
       list-style: none;
    }
