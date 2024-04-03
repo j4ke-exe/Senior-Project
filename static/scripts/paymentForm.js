@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     const cardNameInput = document.getElementById('card-name');
+    const cardAddressInput = document.getElementById('card-address');
     const cardNumberInput = document.getElementById('card-number');
     const cardExpiryInput = document.getElementById('card-expiry');
     const cardCVVInput = document.getElementById('card-cvv');
     const nameInput = document.getElementById('name');
-    const addressInput = document.getElementById('address');
     const phoneInput = document.getElementById('phone');
     const emailInput = document.getElementById('email');
 
@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     
+    cardAddressInput.addEventListener('input', function () {
+        this.value = this.value.replace(/[^A-Za-z0-9\s.,-]/g, '');
+    });    
+
+
     cardNumberInput.addEventListener('input', function () {
         let value = this.value.replace(/\D/g, '');
         value = value.match(/.{1,4}/g)?.join(' ') ?? '';
@@ -42,13 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
     nameInput.addEventListener('input', function () {
         this.value = this.value.replace(/[^A-Za-z\s.-]/g, '');
     });
-
-
-    addressInput.addEventListener('input', function () {
-        this.value = this.value.replace(/[^A-Za-z0-9\s.,-]/g, '');
-    });    
-
-
+    
+    
     phoneInput.addEventListener('input', function () {
         let value = this.value.replace(/\D/g, '');
         if (value.length > 10) value = value.slice(0, 10);
