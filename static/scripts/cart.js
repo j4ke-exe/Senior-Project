@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializeAddToCartForms();
+    updateCartCount();
     fetchCartItems();
     initializeClearCartButton();
     initializeUpdateButton();
@@ -31,6 +32,7 @@ function initializeAddToCartForms() {
                         submitButton.classList.add("btn-added");
                         submitButton.disabled = true;
                     }
+                    updateCartCount();
                 } else {
                     console.error('Error adding item to cart:', data.message);
                 }
@@ -38,6 +40,24 @@ function initializeAddToCartForms() {
             .catch(error => console.error('Error:', error));
         });
     });
+}
+
+
+function updateCartCount() {
+    fetch('/get_cart_items')
+    .then(response => response.json())
+    .then(data => {
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            const totalQuantity = data.cart.reduce((total, item) => total + item.quantity, 0);
+            if (totalQuantity > 0) {
+                cartCountElement.textContent = `CART (${totalQuantity})`;
+            } else {
+                cartCountElement.textContent = 'CART';
+            }
+        }
+    })
+    .catch(error => console.error('Error fetching cart items:', error));
 }
 
 
@@ -72,6 +92,7 @@ function clearCart() {
             document.querySelector('.cart-table tbody').innerHTML = '';
             document.getElementById('total-cost').textContent = '0.00';
             fetchCartItems();
+            updateCartCount();
         } else {
             console.error('Error clearing cart:', data.message);
         }
@@ -124,6 +145,7 @@ function initializeUpdateButton() {
                 if (data.success) {
                     console.log('Cart updated');
                     fetchCartItems();
+                    updateCartCount();
                 } else {
                     console.error('Failed to update cart:', data.message);
                 }
