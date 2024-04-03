@@ -27,7 +27,11 @@
         <ul>
             <li><a href="/">HOME</a></li>
             <li><a href="/menu">MENU</a></li>
+            {% if total_quantity > 0 %}
+            <li><a href="/cart" id="cart-count">CART ({{ total_quantity }})</a></li>
+            {% else %}
             <li><a href="/cart">CART</a></li>
+            {% endif %}
         </ul>
     </nav>
     <div class="content">
