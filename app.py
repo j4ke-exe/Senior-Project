@@ -141,7 +141,7 @@ def checkout():
             "total_cost": total_cost
             }
         session.pop('cart', None)
-        return redirect(url_for('thankyou', order_id=order_id))
+        return redirect(url_for('thankyou', order_id=order_id, total_quantity=g.total_quantity))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
         return render_template('checkout.html', form=form, total_cost=total_cost, total_quantity=g.total_quantity)
@@ -157,7 +157,7 @@ def thankyou():
     if order:
         order['total_cost'] = calculate_order_total(order['order_details'])
         order['delivery'] = delivery_formatted
-    return render_template('thankyou.html', order=order, order_id=order_id)
+    return render_template('thankyou.html', order=order, order_id=order_id, total_quantity=g.total_quantity)
 
 
 if __name__ == '__main__':
