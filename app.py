@@ -1,6 +1,5 @@
-import os, time, uuid
+import os, uuid
 from flask_wtf import FlaskForm
-from datetime import datetime, timedelta
 from wtforms.validators import DataRequired, Email, Length, Regexp
 from wtforms import StringField, SubmitField, EmailField, FormField, Form
 from flask import Flask, g, jsonify, redirect, render_template, request, session, url_for
@@ -25,6 +24,7 @@ pizza_menu = [
 
 class CreditCardForm(Form):
     card_name = StringField('Card Name', validators=[DataRequired(), Length(min=2, max=50)])
+    card_address = StringField('Address', validators=[DataRequired(), Length(min=10, max=100)])
     card_number = StringField('Card Number', validators=[DataRequired(), Regexp(r'^(?:\d{4} ){3}\d{4}$'), Length(min=17, max=19)])
     card_expiry = StringField('Exp Date', validators=[DataRequired(), Regexp(r'^(0[1-9]|1[0-2])\/\d{2}$'), Length(min=4, max=5)])
     card_cvv = StringField('CVV', validators=[DataRequired(), Length(min=3, max=3)])
@@ -32,7 +32,6 @@ class CreditCardForm(Form):
 
 class CheckoutForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=50)])
-    address = StringField('Address', validators=[DataRequired(), Length(min=10, max=100)])
     email = EmailField('Email', validators=[DataRequired(), Email()])
     phone = StringField('Phone', validators=[DataRequired(), Length(min=10, max=15)])
     credit_card = FormField(CreditCardForm)
@@ -123,25 +122,21 @@ def update_item():
 def checkout():
     form = CheckoutForm()
     if form.validate_on_submit():
-        timestamp = time.time()
         customer_info = {
             "name": form.name.data, 
-            "address": form.address.data, 
             "email": form.email.data, 
             "phone": form.phone.data
-            }
+        }
         order_details = session.get('cart', [])
         total_cost = calculate_order_total(order_details)
         order_id = str(uuid.uuid4())
         orders_db[order_id] = {
             "customer_info": customer_info, 
             "order_details": order_details, 
-            "status": "Processing", 
-            "timestamp": timestamp, 
             "total_cost": total_cost
-            }
+        }
         session.pop('cart', None)
-        return redirect(url_for('thankyou', order_id=order_id, total_quantity=g.total_quantity))
+        return redirect(url_for('thankyou', order_id=order_id))
     else:
         total_cost = calculate_order_total(session.get('cart', []))
         return render_template('checkout.html', form=form, total_cost=total_cost, total_quantity=g.total_quantity)
@@ -149,14 +144,10 @@ def checkout():
 
 @app.route('/thankyou', methods=['GET', 'POST'])
 def thankyou():
-    current_time = datetime.now()
-    delivery_time = current_time + timedelta(minutes=45)
-    delivery_formatted = delivery_time.strftime("%#I:%M %p")
     order_id = request.args.get('order_id') or request.form.get('order_id')
     order = orders_db.get(order_id) if order_id else None
     if order:
         order['total_cost'] = calculate_order_total(order['order_details'])
-        order['delivery'] = delivery_formatted
     return render_template('thankyou.html', order=order, order_id=order_id, total_quantity=g.total_quantity)
 
 
