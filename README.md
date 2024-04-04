@@ -19,7 +19,7 @@
 
 ## Built With
 
-Python (Flask), JavaScript, HTML, and CSS.
+Python (Flask/Jinja2), JavaScript, HTML, and CSS.
 
 ## Installation
 
