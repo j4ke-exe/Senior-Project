@@ -115,8 +115,8 @@ function populateCartItems(cartItems) {
             <td>${item.name}</td>
             <td>
                 <form class="quantity-form">
-                    <input type="hidden" name="item_id" value="${item.id}" />
-                    <input type="number" name="quantity" value="${item.quantity}" class="quantity-input" />
+                    <input type="hidden" name="item_id" value="${item.id}"/>
+                    <input type="number" name="quantity" value="${item.quantity}" class="quantity-input"/>
                 </form>
             </td>
             <td>$${parseFloat(item.price).toFixed(2)}</td>
@@ -130,7 +130,7 @@ function populateCartItems(cartItems) {
 function initializeUpdateButton() {
     const updateCartBtn = document.querySelector('.btn-update-cart');
     if (updateCartBtn) {
-        updateCartBtn.addEventListener('click', () => {
+        const updateCart = () => {
             const items = Array.from(document.querySelectorAll('.quantity-input')).map(input => ({
                 item_id: input.closest('form.quantity-form').querySelector('input[name="item_id"]').value,
                 quantity: input.value,
@@ -151,6 +151,13 @@ function initializeUpdateButton() {
                 }
             })
             .catch(error => console.error('Error:', error));
+        };
+        updateCartBtn.addEventListener('click', updateCart);
+        document.body.addEventListener('keydown', function(event) {
+            if (event.target.matches('.quantity-input') && event.key === 'Enter') {
+                event.preventDefault();
+                updateCartBtn.click();
+            }
         });
     }
 }
